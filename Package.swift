@@ -6,5 +6,8 @@ let package = Package(
   name: "SettingsKit",
   platforms: [.macOS(.v14)],
   products: [.library(name: "SettingsKit", targets: ["SettingsKit"])],
-  targets: [.target(name: "SettingsKit")]
+  targets: [
+    .target(name: "SettingsKit"),
+    .executableTarget(name: "Example", dependencies: ["SettingsKit"], path: "Example"),
+  ]
 )
