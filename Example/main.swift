@@ -9,18 +9,18 @@ import SettingsKit
 // MARK: - App Delegate
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  private var settingWindowController: SettingWindowController?
+  private var settingsWindowController: SettingsWindowController?
 
   func applicationDidFinishLaunching(_: Notification) {
     // Create setting panes
-    let settings: [any SettingContentRepresentable] = [
+    let panes: [any SettingsPane] = [
       GeneralSettingPane(),
       AboutSettingPane(),
     ]
 
     // Create and show the settings window
-    settingWindowController = SettingWindowController(settings: settings, title: "Preferences")
-    settingWindowController?.show()
+    settingsWindowController = SettingsWindowController(panes: panes, title: "Preferences")
+    settingsWindowController?.show()
   }
 
   func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {

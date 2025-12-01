@@ -7,7 +7,7 @@ import Cocoa
 import SettingsKit
 import SwiftUI
 
-struct AboutSettingPane: SettingContentRepresentable {
+struct AboutSettingPane: SettingsPane {
   var tabViewImage: NSImage? {
     NSImage(systemSymbolName: "info.circle", accessibilityDescription: "About")
   }

@@ -1,16 +1,22 @@
 //
-//  SettingViewController.swift
+//  SettingsPaneController.swift
 //  SettingsKit
 //
 
 import Cocoa
 import SwiftUI
 
-public final class SettingViewController<T: SettingContentRepresentable>: NSViewController {
-  private let representable: T
+/// A view controller that hosts a SwiftUI view from a ``SettingsPane``.
+///
+/// This controller bridges SwiftUI content to AppKit by embedding an `NSHostingController`
+/// and automatically manages the preferred content size for window resizing.
+public final class SettingsPaneController<T: SettingsPane>: NSViewController {
+  private let pane: T
 
-  public init(representable: T) {
-    self.representable = representable
+  /// Creates a new settings pane controller.
+  /// - Parameter pane: The settings pane to display.
+  public init(pane: T) {
+    self.pane = pane
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -23,7 +29,7 @@ public final class SettingViewController<T: SettingContentRepresentable>: NSView
     view = NSView()
     view.translatesAutoresizingMaskIntoConstraints = false
 
-    let hostingViewController = NSHostingController(rootView: representable.view)
+    let hostingViewController = NSHostingController(rootView: pane.view)
     hostingViewController.sizingOptions = .preferredContentSize
     addChild(hostingViewController)
     view.addSubview(hostingViewController.view)
@@ -37,7 +43,11 @@ public final class SettingViewController<T: SettingContentRepresentable>: NSView
   }
 }
 
+// MARK: - NSView Extension
+
 private extension NSView {
+  /// Constrains the view to fill its superview.
+  /// - Returns: The created constraints.
   @discardableResult
   func constrainToSuperviewBounds() -> [NSLayoutConstraint] {
     guard let superview else {

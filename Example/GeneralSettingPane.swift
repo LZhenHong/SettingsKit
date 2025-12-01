@@ -7,7 +7,7 @@ import Cocoa
 import SettingsKit
 import SwiftUI
 
-struct GeneralSettingPane: SettingContentRepresentable {
+struct GeneralSettingPane: SettingsPane {
   var tabViewImage: NSImage? {
     NSImage(systemSymbolName: "gear", accessibilityDescription: "General")
   }
