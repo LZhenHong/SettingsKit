@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
   name: "SettingsKit",
-  platforms: [.macOS(.v13)],
+  platforms: [.macOS(.v14)],
   products: [.library(name: "SettingsKit", targets: ["SettingsKit"])],
   targets: [.target(name: "SettingsKit")]
 )

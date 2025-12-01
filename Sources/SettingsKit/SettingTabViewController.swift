@@ -5,9 +5,7 @@
 
 import Cocoa
 
-public class SettingTabViewController: NSTabViewController {
-  private lazy var tabViewSizes: [NSTabViewItem: NSSize] = [:]
-
+public final class SettingTabViewController: NSTabViewController {
   override public func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
     super.tabView(tabView, didSelect: tabViewItem)
 

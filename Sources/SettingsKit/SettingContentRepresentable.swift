@@ -6,11 +6,13 @@
 import Cocoa
 import SwiftUI
 
-public protocol SettingContentRepresentable {
+public protocol SettingContentRepresentable<Content> {
+  associatedtype Content: View
+
   var tabViewImage: NSImage? { get }
   var preferredTitle: String { get }
   var isEnabled: Bool { get }
-  @ViewBuilder var view: AnyView { get }
+  @ViewBuilder var view: Content { get }
 }
 
 public extension SettingContentRepresentable {

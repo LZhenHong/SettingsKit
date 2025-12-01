@@ -7,9 +7,9 @@ import Cocoa
 
 public final class SettingWindowController: NSWindowController {
   private var tabViewController: SettingTabViewController
-  public private(set) var settings: [SettingContentRepresentable]
+  public private(set) var settings: [any SettingContentRepresentable]
 
-  public init(settings: [SettingContentRepresentable]) {
+  public init(settings: [any SettingContentRepresentable], title: String) {
     self.settings = settings
 
     tabViewController = SettingTabViewController()
@@ -22,7 +22,7 @@ public final class SettingWindowController: NSWindowController {
 
     let window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable], backing: .buffered, defer: false)
     window.collectionBehavior = [.managed, .participatesInCycle, .fullScreenNone]
-    window.title = String(localized: "Settings")
+    window.title = title
     window.contentViewController = tabViewController
 
     super.init(window: window)
