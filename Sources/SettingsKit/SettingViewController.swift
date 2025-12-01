@@ -8,7 +8,6 @@ import SwiftUI
 
 public final class SettingViewController<T: SettingContentRepresentable>: NSViewController {
   private let representable: T
-  private var constraints: [NSLayoutConstraint] = []
 
   public init(representable: T) {
     self.representable = representable
@@ -17,7 +16,7 @@ public final class SettingViewController<T: SettingContentRepresentable>: NSView
 
   @available(*, unavailable)
   required init?(coder _: NSCoder) {
-    fatalError("init(coder:) can not been called.")
+    fatalError("init(coder:) has not been implemented.")
   }
 
   override public func loadView() {
@@ -28,7 +27,7 @@ public final class SettingViewController<T: SettingContentRepresentable>: NSView
     hostingViewController.sizingOptions = .preferredContentSize
     addChild(hostingViewController)
     view.addSubview(hostingViewController.view)
-    constraints = hostingViewController.view.constrainToSuperviewBounds()
+    hostingViewController.view.constrainToSuperviewBounds()
   }
 
   override public func viewWillAppear() {
@@ -45,18 +44,14 @@ private extension NSView {
       preconditionFailure("superview has to be set first")
     }
 
-    var result = [NSLayoutConstraint]()
-    result.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|",
-                                                             options: .directionLeadingToTrailing,
-                                                             metrics: nil,
-                                                             views: ["subview": self]))
-    result.append(contentsOf: NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]-0-|",
-                                                             options: .directionLeadingToTrailing,
-                                                             metrics: nil,
-                                                             views: ["subview": self]))
     translatesAutoresizingMaskIntoConstraints = false
-    superview.addConstraints(result)
-
-    return result
+    let constraints = [
+      leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+      trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+      topAnchor.constraint(equalTo: superview.topAnchor),
+      bottomAnchor.constraint(equalTo: superview.bottomAnchor),
+    ]
+    NSLayoutConstraint.activate(constraints)
+    return constraints
   }
 }

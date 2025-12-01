@@ -6,7 +6,7 @@
 import Cocoa
 
 public final class SettingWindowController: NSWindowController {
-  private var tabViewController: SettingTabViewController
+  private let tabViewController: SettingTabViewController
   public private(set) var settings: [any SettingContentRepresentable]
 
   public init(settings: [any SettingContentRepresentable], title: String) {
@@ -16,7 +16,7 @@ public final class SettingWindowController: NSWindowController {
     tabViewController.tabStyle = .toolbar
 
     let validSettings = settings.filter(\.isEnabled)
-    if validSettings.count > 0 {
+    if !validSettings.isEmpty {
       tabViewController.tabViewItems = validSettings.map(\.tabViewItem)
     }
 
@@ -30,20 +30,17 @@ public final class SettingWindowController: NSWindowController {
 
   @available(*, unavailable)
   required init?(coder _: NSCoder) {
-    fatalError("init(coder:) can not been called.")
+    fatalError("init(coder:) has not been implemented.")
   }
 
   public func show(_ level: NSWindow.Level = .normal) {
     guard let window else { return }
 
-    NSApp.activate(ignoringOtherApps: true)
-
-    if !window.isKeyWindow {
+    if !window.isVisible {
       window.center()
     }
     window.level = level
-    window.makeKeyAndOrderFront(NSApp)
-    window.orderFrontRegardless()
     showWindow(self)
+    NSApp.activate(ignoringOtherApps: true)
   }
 }

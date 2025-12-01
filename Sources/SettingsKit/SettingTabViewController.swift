@@ -25,19 +25,15 @@ public final class SettingTabViewController: NSTabViewController {
   }
 
   private func resize(window: NSWindow, to size: NSSize) {
-    let rect = NSRect(x: 0, y: 0, width: size.width, height: size.height)
-    let frame = window.frameRect(forContentRect: rect)
-    let toolbarHeight = window.frame.size.height - frame.size.height
-    let origin = NSPoint(x: window.frame.origin.x, y: window.frame.origin.y + toolbarHeight)
-    let windowFrame = NSRect(origin: origin, size: frame.size)
+    let contentRect = NSRect(origin: .zero, size: size)
+    let frameRect = window.frameRect(forContentRect: contentRect)
+    let heightDelta = window.frame.height - frameRect.height
+    let newOrigin = NSPoint(x: window.frame.origin.x, y: window.frame.origin.y + heightDelta)
+    let newFrame = NSRect(origin: newOrigin, size: frameRect.size)
 
-    let animates = !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
-    if animates {
-      NSAnimationContext.runAnimationGroup { _ in
-        window.animator().setFrame(windowFrame, display: false)
-      }
-    } else {
-      window.setFrame(windowFrame, display: false)
+    NSAnimationContext.runAnimationGroup { context in
+      context.allowsImplicitAnimation = !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+      window.animator().setFrame(newFrame, display: false)
     }
   }
 }
