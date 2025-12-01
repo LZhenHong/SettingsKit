@@ -1,6 +1,15 @@
 # SettingsKit
 
-A lightweight Swift framework for creating macOS preferences windows with SwiftUI content.
+A lightweight Swift framework for creating macOS preferences windows with SwiftUI content in **AppKit-based applications**.
+
+## When to Use
+
+| App Architecture | Recommended Approach |
+|------------------|---------------------|
+| **AppKit** (`NSApplicationDelegate`) | ✅ Use SettingsKit |
+| **SwiftUI** (`@main struct App`) | Use native [`Settings`](https://developer.apple.com/documentation/swiftui/settings/) scene |
+
+> **Note:** If your app uses the SwiftUI App lifecycle (`@main struct MyApp: App`), you should use SwiftUI's built-in `Settings` scene instead of this library.
 
 ## Features
 
@@ -24,7 +33,7 @@ Add the following to your `Package.swift`:
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/yourusername/SettingsKit.git", from: "1.0.0")
+  .package(url: "https://github.com/LZhenHong/SettingsKit.git", from: "0.0.1")
 ]
 ```
 
