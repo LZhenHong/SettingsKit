@@ -30,6 +30,13 @@ public final class SettingsTabController: NSTabViewController {
 
   /// Resizes the window to fit the content while keeping the top edge anchored.
   private func resize(window: NSWindow, to size: NSSize) {
+    // When the window is not yet visible, only set the content size.
+    // The position will be set by show() calling center().
+    guard window.isVisible else {
+      window.setContentSize(size)
+      return
+    }
+
     let contentRect = NSRect(origin: .zero, size: size)
     let frameRect = window.frameRect(forContentRect: contentRect)
     let heightDelta = window.frame.height - frameRect.height
