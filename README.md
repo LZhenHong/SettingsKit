@@ -33,7 +33,7 @@ Add the following to your `Package.swift`:
 
 ```swift
 dependencies: [
-  .package(url: "https://github.com/LZhenHong/SettingsKit.git", from: "0.0.1")
+  .package(url: "https://github.com/LZhenHong/SettingsKit.git", from: "0.0.2")
 ]
 ```
 
@@ -90,6 +90,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @IBAction func showPreferences(_ sender: Any) {
     settingsWindowController?.show()
   }
+
+  @IBAction func showAboutPane(_ sender: Any) {
+    // Show window and select the second pane directly
+    settingsWindowController?.show(paneIndex: 1)
+  }
 }
 ```
 
@@ -123,10 +128,16 @@ A protocol that defines the content and appearance of a settings pane.
 
 A window controller that presents a macOS-style preferences window.
 
+| Property | Type | Description |
+|----------|------|-------------|
+| `panes` | `[any SettingsPane]` | The setting panes managed by this controller |
+| `selectedPaneIndex` | `Int` | The index of the currently selected pane |
+
 | Method | Description |
 |--------|-------------|
 | `init(panes:title:)` | Creates a new settings window with the given panes |
-| `show(_:)` | Shows the settings window and brings it to front |
+| `show(paneIndex:level:)` | Shows the settings window, optionally selecting a specific pane |
+| `selectPane(at:)` | Selects the pane at the specified index |
 
 ## License
 

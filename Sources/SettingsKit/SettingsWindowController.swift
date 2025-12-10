@@ -22,6 +22,11 @@ import Cocoa
 public final class SettingsWindowController: NSWindowController {
   private let tabController: SettingsTabController
 
+  /// The index of the currently selected pane.
+  public var selectedPaneIndex: Int {
+    tabController.selectedTabViewItemIndex
+  }
+
   /// The setting panes managed by this controller.
   public private(set) var panes: [any SettingsPane]
 
@@ -54,9 +59,15 @@ public final class SettingsWindowController: NSWindowController {
   }
 
   /// Shows the settings window and brings it to the front.
-  /// - Parameter level: The window level. Defaults to `.normal`.
-  public func show(_ level: NSWindow.Level = .normal) {
+  /// - Parameters:
+  ///   - paneIndex: The index of the pane to select. If `nil`, the current selection is preserved.
+  ///   - level: The window level. Defaults to `.normal`.
+  public func show(paneIndex: Int? = nil, level: NSWindow.Level = .normal) {
     guard let window else { return }
+
+    if let paneIndex {
+      selectPane(at: paneIndex)
+    }
 
     if !window.isVisible {
       window.center()
@@ -64,5 +75,17 @@ public final class SettingsWindowController: NSWindowController {
     window.level = level
     showWindow(self)
     NSApp.activate(ignoringOtherApps: true)
+  }
+
+  /// Selects the pane at the specified index.
+  /// - Parameter index: The index of the pane to select.
+  /// - Returns: `true` if the selection was successful, `false` if the index is out of bounds.
+  @discardableResult
+  public func selectPane(at index: Int) -> Bool {
+    guard index >= 0, index < tabController.tabViewItems.count else {
+      return false
+    }
+    tabController.selectedTabViewItemIndex = index
+    return true
   }
 }

@@ -58,12 +58,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 ## Show the Settings Window
 
-Call the ``SettingsWindowController/show(_:)`` method to display the window:
+Call the ``SettingsWindowController/show(paneIndex:level:)`` method to display the window:
 
 ```swift
 @IBAction func showPreferences(_ sender: Any) {
   settingsWindowController?.show()
 }
+```
+
+## Select a Specific Pane
+
+You can select a specific pane when showing the window or programmatically at runtime:
+
+```swift
+// Show window and select the second pane (index 1)
+settingsWindowController?.show(paneIndex: 1)
+
+// Or select a pane at runtime
+settingsWindowController?.selectPane(at: 2)
+
+// Get the currently selected pane index
+let currentIndex = settingsWindowController?.selectedPaneIndex
 ```
 
 ## Conditionally Enable Panes
